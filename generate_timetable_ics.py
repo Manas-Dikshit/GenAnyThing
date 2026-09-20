@@ -8,161 +8,158 @@ Usage:
     python generate_timetable.py
 
 Output:
-    timetable_20-09-2026_to_17-10-2026.ics
+    timetable_20-09-2026_to_17-10-2026_Demo.ics
 """
 
 from datetime import date, datetime, timedelta
 
-# ---------------------------------------------------------------------------
+
 # 1. CONFIG: date range
-# ---------------------------------------------------------------------------
+
 START_DATE = date(2026, 9, 20)   # inclusive
 END_DATE   = date(2026, 10, 17)  # inclusive
 
-# ---------------------------------------------------------------------------
+
 # 2. WEEKLY SCHEDULE
 # Each entry: (start_hour, start_min, end_hour, end_min, "Title", "Location")
 # Location is optional - leave "" if not needed.
 # Python's date.weekday(): Monday=0 ... Sunday=6
-# ---------------------------------------------------------------------------
+
 
 WEEKLY_SCHEDULE = {
     0: [  # MONDAY
-        (8, 0, 8, 30, "Wake up & freshen up", ""),
-        (8, 30, 9, 0, "Breakfast + quick GATE revision", ""),
-        (9, 0, 10, 0, "GATE Prep (self-study)", ""),
-        (10, 0, 11, 0, "DBMS", "CR3"),
-        (11, 0, 12, 0, "IWT", "CR3"),
-        (12, 0, 13, 0, "OS", "CR3"),
-        (13, 0, 14, 0, "Lunch Break", ""),
-        (14, 0, 15, 0, "ML Research (light)", ""),
-        (15, 0, 16, 0, "SC", "CR3"),
-        (16, 0, 17, 0, "TOC", "CR3"),
-        (17, 0, 18, 0, "Cricket / Sports", ""),
-        (18, 0, 18, 30, "Break / Snacks", ""),
-        (18, 30, 20, 0, "GATE Prep (deep study)", ""),
-        (20, 0, 21, 15, "Innovation Club work", ""),
-        (21, 15, 21, 30, "Mobile / entertainment buffer", ""),
-        (21, 30, 22, 15, "Dinner", ""),
-        (22, 15, 23, 0, "ML Research (continue)", ""),
-        (23, 0, 23, 30, "Wind down", ""),
+        (7, 0, 7, 30, "Wake up & freshen up", ""),
+        (7, 30, 8, 0, "Breakfast", ""),
+        (8, 0, 9, 0, "Reading / Study", ""),
+        (9, 0, 10, 0, "Class / Lecture", "Room A"),
+        (10, 0, 11, 0, "Group Discussion", "Room A"),
+        (11, 0, 12, 0, "Workshop", "Room B"),
+        (12, 0, 13, 0, "Lunch Break", ""),
+        (13, 0, 14, 0, "Library Work", ""),
+        (14, 0, 15, 0, "Class / Lecture", "Room C"),
+        (15, 0, 16, 0, "Seminar", "Room C"),
+        (16, 0, 17, 0, "Sports / Outdoor Activity", ""),
+        (17, 0, 17, 30, "Snacks Break", ""),
+        (17, 30, 19, 0, "Self Study", ""),
+        (19, 0, 20, 0, "Project Work", ""),
+        (20, 0, 20, 30, "Relaxation / Music", ""),
+        (20, 30, 21, 15, "Dinner", ""),
+        (21, 15, 22, 0, "Leisure Activity", ""),
+        (22, 0, 22, 30, "Wind down", ""),
     ],
     1: [  # TUESDAY
-        (8, 0, 8, 30, "Wake up & freshen up", ""),
-        (8, 30, 9, 0, "Breakfast + quick revision", ""),
-        (9, 0, 10, 0, "IWT", "CR3"),
-        (10, 0, 13, 0, "OS LAB", "PL2"),
-        (13, 0, 14, 0, "Lunch Break", ""),
-        (14, 0, 15, 0, "GATE Prep (self-study)", ""),
-        (15, 0, 16, 0, "TOC", "CR2"),
-        (16, 0, 17, 0, "SC", "CR2"),
-        (17, 0, 18, 0, "Cricket / Sports", ""),
-        (18, 0, 18, 30, "Break", ""),
-        (18, 30, 20, 0, "GATE Prep (deep study)", ""),
-        (20, 0, 21, 15, "Competitive Coding", ""),
-        (21, 15, 21, 30, "Mobile / entertainment", ""),
-        (21, 30, 22, 15, "Dinner", ""),
-        (22, 15, 23, 0, "Competitive Coding / Video editing", ""),
-        (23, 0, 23, 30, "Wind down", ""),
+        (7, 0, 7, 30, "Wake up & freshen up", ""),
+        (7, 30, 8, 0, "Breakfast", ""),
+        (8, 0, 9, 0, "Class / Lecture", "Room B"),
+        (9, 0, 12, 0, "Lab Session", "Lab 1"),
+        (12, 0, 13, 0, "Lunch Break", ""),
+        (13, 0, 14, 0, "Library Work", ""),
+        (14, 0, 15, 0, "Class / Lecture", "Room C"),
+        (15, 0, 16, 0, "Seminar", "Room C"),
+        (16, 0, 17, 0, "Sports / Outdoor Activity", ""),
+        (17, 0, 17, 30, "Snacks Break", ""),
+        (17, 30, 19, 0, "Self Study", ""),
+        (19, 0, 20, 0, "Creative Work", ""),
+        (20, 0, 20, 30, "Relaxation", ""),
+        (20, 30, 21, 15, "Dinner", ""),
+        (21, 15, 22, 0, "Leisure Activity", ""),
+        (22, 0, 22, 30, "Wind down", ""),
     ],
     2: [  # WEDNESDAY
-        (8, 0, 8, 30, "Wake up & freshen up", ""),
-        (8, 30, 9, 0, "Breakfast", ""),
-        (9, 0, 10, 0, "GATE Prep (deep study)", ""),
-        (10, 0, 11, 0, "GATE Prep (continue)", ""),
-        (11, 0, 12, 0, "ML Research", ""),
-        (12, 0, 13, 0, "ML Research (continue)", ""),
-        (13, 0, 14, 0, "Lunch Break", ""),
-        (14, 0, 15, 0, "SC", "CR14"),
-        (15, 0, 16, 0, "IWT", "CR13"),
-        (16, 0, 17, 0, "Entertainment / Mobile / Reels", ""),
-        (17, 0, 18, 0, "Cricket / Sports", ""),
-        (18, 0, 18, 30, "Break", ""),
-        (18, 30, 20, 0, "GATE Prep (light revision)", ""),
-        (20, 0, 21, 15, "ML Research", ""),
-        (21, 15, 21, 30, "Buffer", ""),
-        (21, 30, 22, 15, "Dinner", ""),
-        (22, 15, 23, 0, "Video editing / Reels", ""),
-        (23, 0, 23, 30, "Wind down", ""),
+        (7, 0, 7, 30, "Wake up & freshen up", ""),
+        (7, 30, 8, 0, "Breakfast", ""),
+        (8, 0, 9, 0, "Self Study", ""),
+        (9, 0, 11, 0, "Workshop", "Room D"),
+        (11, 0, 12, 0, "Group Activity", ""),
+        (12, 0, 13, 0, "Lunch Break", ""),
+        (13, 0, 14, 0, "Class / Lecture", "Room E"),
+        (14, 0, 15, 0, "Seminar", "Room E"),
+        (15, 0, 16, 0, "Relaxation / Free Time", ""),
+        (16, 0, 17, 0, "Sports / Outdoor Activity", ""),
+        (17, 0, 17, 30, "Snacks Break", ""),
+        (17, 30, 19, 0, "Library Work", ""),
+        (19, 0, 20, 0, "Project Work", ""),
+        (20, 0, 20, 30, "Relaxation", ""),
+        (20, 30, 21, 15, "Dinner", ""),
+        (21, 15, 22, 0, "Leisure Activity", ""),
+        (22, 0, 22, 30, "Wind down", ""),
     ],
     3: [  # THURSDAY
-        (8, 0, 8, 30, "Wake up & freshen up", ""),
-        (8, 30, 9, 0, "Breakfast + revision", ""),
-        (9, 0, 10, 0, "IWT", "CR14"),
-        (10, 0, 11, 0, "SC", "CR14"),
-        (11, 0, 12, 0, "DBMS", "CR14"),
-        (12, 0, 13, 0, "TOC", "CR14"),
-        (13, 0, 14, 0, "Lunch Break", ""),
-        (14, 0, 15, 0, "GATE Prep", ""),
-        (15, 0, 16, 0, "OS", "CR14"),
-        (16, 0, 17, 0, "Competitive Coding (light)", ""),
-        (17, 0, 18, 0, "Cricket / Sports", ""),
-        (18, 0, 18, 30, "Break", ""),
-        (18, 30, 20, 0, "GATE Prep (deep study)", ""),
-        (20, 0, 21, 15, "Innovation Club work", ""),
-        (21, 15, 21, 30, "Mobile / entertainment", ""),
-        (21, 30, 22, 15, "Dinner", ""),
-        (22, 15, 23, 0, "Competitive Coding (continue)", ""),
-        (23, 0, 23, 30, "Wind down", ""),
+        (7, 0, 7, 30, "Wake up & freshen up", ""),
+        (7, 30, 8, 0, "Breakfast", ""),
+        (8, 0, 9, 0, "Class / Lecture", "Room F"),
+        (9, 0, 12, 0, "Lab Session", "Lab 2"),
+        (12, 0, 13, 0, "Lunch Break", ""),
+        (13, 0, 14, 0, "Library Work", ""),
+        (14, 0, 15, 0, "Class / Lecture", "Room G"),
+        (15, 0, 16, 0, "Workshop", "Room G"),
+        (16, 0, 17, 0, "Sports / Outdoor Activity", ""),
+        (17, 0, 17, 30, "Snacks Break", ""),
+        (17, 30, 19, 0, "Self Study", ""),
+        (19, 0, 20, 0, "Creative Work", ""),
+        (20, 0, 20, 30, "Relaxation", ""),
+        (20, 30, 21, 15, "Dinner", ""),
+        (21, 15, 22, 0, "Leisure Activity", ""),
+        (22, 0, 22, 30, "Wind down", ""),
     ],
     4: [  # FRIDAY
-        (8, 0, 8, 30, "Wake up & freshen up", ""),
-        (8, 30, 9, 0, "Breakfast + revision", ""),
-        (9, 0, 10, 0, "GATE Prep", ""),
-        (10, 0, 11, 0, "DBMS", "CR2"),
-        (11, 0, 12, 0, "OS", "CR2"),
-        (12, 0, 13, 0, "ML Research", ""),
-        (13, 0, 14, 0, "Lunch Break", ""),
-        (14, 0, 17, 0, "DBMS LAB", "PL1"),
-        (17, 0, 18, 0, "Cricket / Sports", ""),
-        (18, 0, 18, 30, "Break", ""),
-        (18, 30, 20, 0, "GATE Prep (deep study)", ""),
-        (20, 0, 21, 15, "ML Research (continue)", ""),
-        (21, 15, 21, 30, "Mobile / entertainment", ""),
-        (21, 30, 22, 15, "Dinner", ""),
-        (22, 15, 23, 0, "Video editing / Reels", ""),
-        (23, 0, 23, 30, "Wind down", ""),
+        (7, 0, 7, 30, "Wake up & freshen up", ""),
+        (7, 30, 8, 0, "Breakfast", ""),
+        (8, 0, 9, 0, "Self Study", ""),
+        (9, 0, 10, 0, "Class / Lecture", "Room H"),
+        (10, 0, 11, 0, "Workshop", "Room H"),
+        (11, 0, 12, 0, "Creative Work", ""),
+        (12, 0, 13, 0, "Lunch Break", ""),
+        (13, 0, 16, 0, "Lab Session", "Lab 3"),
+        (16, 0, 17, 0, "Sports / Outdoor Activity", ""),
+        (17, 0, 17, 30, "Snacks Break", ""),
+        (17, 30, 19, 0, "Library Work", ""),
+        (19, 0, 20, 0, "Project Work", ""),
+        (20, 0, 20, 30, "Relaxation", ""),
+        (20, 30, 21, 15, "Dinner", ""),
+        (21, 15, 22, 0, "Leisure Activity", ""),
+        (22, 0, 22, 30, "Wind down", ""),
     ],
     5: [  # SATURDAY
-        (8, 0, 8, 30, "Wake up & freshen up", ""),
-        (8, 30, 9, 0, "Breakfast + revision", ""),
-        (9, 0, 10, 0, "GATE Prep", ""),
-        (10, 0, 13, 0, "PP LAB", "PL1"),
-        (13, 0, 14, 0, "Lunch Break", ""),
-        (14, 0, 15, 0, "OS", "CR3"),
-        (15, 0, 16, 0, "DBMS", "CR3"),
-        (16, 0, 17, 0, "TOC", "CR2"),
-        (17, 0, 18, 0, "Cricket / Sports", ""),
-        (18, 0, 18, 30, "Break", ""),
-        (18, 30, 20, 0, "GATE Prep (deep study)", ""),
-        (20, 0, 21, 15, "Competitive Coding", ""),
-        (21, 15, 21, 30, "Mobile / entertainment", ""),
-        (21, 30, 22, 15, "Dinner", ""),
-        (22, 15, 23, 0, "Entertainment (movie/series night)", ""),
-        (23, 0, 23, 30, "Wind down", ""),
+        (7, 0, 7, 30, "Wake up & freshen up", ""),
+        (7, 30, 8, 0, "Breakfast", ""),
+        (8, 0, 9, 0, "Self Study", ""),
+        (9, 0, 12, 0, "Lab Session", "Lab 4"),
+        (12, 0, 13, 0, "Lunch Break", ""),
+        (13, 0, 14, 0, "Class / Lecture", "Room I"),
+        (14, 0, 15, 0, "Workshop", "Room I"),
+        (15, 0, 16, 0, "Seminar", "Room I"),
+        (16, 0, 17, 0, "Sports / Outdoor Activity", ""),
+        (17, 0, 17, 30, "Snacks Break", ""),
+        (17, 30, 19, 0, "Self Study", ""),
+        (19, 0, 20, 0, "Creative Work", ""),
+        (20, 0, 20, 30, "Relaxation", ""),
+        (20, 30, 21, 15, "Dinner", ""),
+        (21, 15, 22, 0, "Leisure Activity", ""),
+        (22, 0, 22, 30, "Entertainment (movie/series)", ""),
     ],
-    6: [  # SUNDAY
-        (8, 0, 8, 30, "Wake up & freshen up", ""),
-        (8, 30, 9, 30, "Breakfast + weekly planning/review", ""),
-        (9, 30, 11, 0, "GATE Prep (mock test / PYQs)", ""),
-        (11, 0, 12, 30, "ML Research (deep work)", ""),
-        (12, 30, 13, 0, "Buffer", ""),
-        (13, 0, 14, 0, "Lunch Break", ""),
-        (14, 0, 15, 30, "Competitive Coding (contest slot)", ""),
-        (15, 30, 16, 30, "Entertainment / Mobile / Reels", ""),
-        (16, 30, 17, 30, "Cricket / Sports", ""),
-        (17, 30, 18, 0, "Break", ""),
-        (18, 0, 19, 30, "Innovation Club meeting/planning", ""),
-        (19, 30, 20, 30, "GATE Prep (revision)", ""),
-        (20, 30, 21, 30, "Free time / Video editing", ""),
-        (21, 30, 22, 15, "Dinner", ""),
-        (22, 15, 23, 0, "Wind down / reading", ""),
+        6: [  # SUNDAY
+        (7, 30, 8, 0, "Wake up & freshen up", ""),
+        (8, 0, 9, 0, "Breakfast + Weekly Planning", ""),
+        (9, 0, 10, 30, "Reading / Study", ""),
+        (10, 30, 12, 0, "Creative Work (art/music)", ""),
+        (12, 0, 13, 0, "Lunch Break", ""),
+        (13, 0, 14, 30, "Group Activity / Discussion", ""),
+        (14, 30, 15, 30, "Relaxation / Free Time", ""),
+        (15, 30, 16, 30, "Sports / Outdoor Activity", ""),
+        (16, 30, 17, 0, "Snacks Break", ""),
+        (17, 0, 18, 30, "Project Work / Planning", ""),
+        (18, 30, 19, 30, "Library Work / Reading", ""),
+        (19, 30, 20, 30, "Leisure Activity", ""),
+        (20, 30, 21, 15, "Dinner", ""),
+        (21, 15, 22, 0, "Entertainment (movie/series)", ""),
+        (22, 0, 22, 30, "Wind down / Reflection", ""),
     ],
 }
 
-# ---------------------------------------------------------------------------
+
 # 3. ICS GENERATION (no external libraries required)
-# ---------------------------------------------------------------------------
+
 
 def escape_ics_text(text):
     """Escape special characters per RFC 5545."""
@@ -228,10 +225,10 @@ def generate_ics(start_date, end_date, weekly_schedule, output_file):
     print(f"Saved to: {output_file}")
 
 
-# ---------------------------------------------------------------------------
+
 # 4. RUN
-# ---------------------------------------------------------------------------
+
 
 if __name__ == "__main__":
-    output_filename = "timetable_20-09-2026_to_17-10-2026.ics"
+    output_filename = "timetable_20-09-2026_to_17-10-2026_demo.ics"
     generate_ics(START_DATE, END_DATE, WEEKLY_SCHEDULE, output_filename)
